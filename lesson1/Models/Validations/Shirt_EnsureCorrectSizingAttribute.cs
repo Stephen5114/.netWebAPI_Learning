@@ -1,7 +1,7 @@
 ﻿using lesson1.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace lesson1.Validations
+namespace lesson1.Models.Validations
 {
     public class Shirt_EnsureCorrectSizingAttribute : ValidationAttribute
     {

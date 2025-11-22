@@ -1,4 +1,5 @@
-﻿using lesson1.Validations;
+﻿
+using lesson1.Models.Validations;
 using System.ComponentModel.DataAnnotations;
 
 namespace lesson1.Models

@@ -1,4 +1,6 @@
-﻿using lesson1.Models;
+﻿using lesson1.Filters;
+using lesson1.Models;
+using lesson1.Models.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace lesson1.Controllers
@@ -7,34 +9,36 @@ namespace lesson1.Controllers
     [Route("api/[controller]")]
     public class ShirtsController: ControllerBase
     {
+
         [HttpGet]
-        public string GetShirts()
+        public IActionResult GetShirts()
         {
-            return "Here are your shirts!";
+            return Ok(ShirtRepository.GetShirts());
         }
 
         [HttpGet("{id}")]
-        public string GetShirtById(int id)
+        [Shirt_ValidateShirtIdFilter]
+        public IActionResult GetShirtById(int id)
         {
-            return $"Here is shirt with id: {id}";
+            return Ok(ShirtRepository.GetShirtById(id));
         }
 
         [HttpPost]
-        public string CreateShirt([FromBody]Shirt shirt)
+        public IActionResult CreateShirt([FromBody]Shirt shirt)
         {
-            return $"Created a shirt.";
+            return Ok($"Created a shirt.");
         }
 
         [HttpPut("{id}")]
-        public string UpdateShirt(int id)
+        public IActionResult UpdateShirt(int id)
         {
-            return $"Updated shirt with id: {id}";
+            return Ok($"Updated shirt with id: {id}");
         }
 
         [HttpDelete("{id}")]
-        public string DeleteShirt(int id)
+        public IActionResult DeleteShirt(int id)
         {
-            return $"Deleted shirt with id: {id}";
+            return Ok($"Deleted shirt with id: {id}");
         }
     }
 }
