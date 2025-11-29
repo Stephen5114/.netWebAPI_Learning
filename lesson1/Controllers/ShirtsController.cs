@@ -1,6 +1,7 @@
 ﻿using lesson1.Filters;
 using lesson1.Models;
 using lesson1.Models.Repositories;
+using lesson1.Models.Validations;
 using Microsoft.AspNetCore.Mvc;
 
 namespace lesson1.Controllers
@@ -24,17 +25,10 @@ namespace lesson1.Controllers
         }
 
         [HttpPost]
+        [Shirt_ValidateCreaateShirtFilter]
         public IActionResult CreateShirt([FromBody]Shirt shirt)
         {
-            if (shirt == null)
-            {
-                return BadRequest();
-            }
-            var existingShirt = ShirtRepository.GetShirtByProperties(shirt.Brand, shirt.Gender, shirt.Color, shirt.Size);
-            if (existingShirt != null)
-            {
-                return BadRequest();
-            }
+            
 
             ShirtRepository.AddShirt(shirt);
 
