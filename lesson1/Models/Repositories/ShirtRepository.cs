@@ -49,5 +49,14 @@
             shirts.Add(shirt);
         }
 
+        public static void UpdateShirt(Shirt shirt)
+        {
+            var shirtToUpdate = shirts.First(x => x.ShirtId == shirt.ShirtId);
+            shirtToUpdate.Brand = shirt.Brand;
+            shirtToUpdate.price = shirt.price;
+            shirtToUpdate.Size = shirt.Size;
+            shirtToUpdate.Color = shirt.Color;
+            shirtToUpdate.Gender = shirt.Gender;
+        }
     }
 }
