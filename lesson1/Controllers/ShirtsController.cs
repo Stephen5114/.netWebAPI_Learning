@@ -1,4 +1,6 @@
 ﻿using lesson1.Filters;
+using lesson1.Filters.ActionFilters;
+using lesson1.Filters.ExceptionFilters;
 using lesson1.Models;
 using lesson1.Models.Repositories;
 using lesson1.Models.Validations;
@@ -40,19 +42,12 @@ namespace lesson1.Controllers
         }
 
         [HttpPut("{id}")]
+        [Shirt_HandleUpdateExceptionsFilter]
         [Shirt_ValidateUpdateShirtFilter]
+        [Shirt_ValidateShirtIdFilter]
         public IActionResult UpdateShirt(int id, Shirt shirt)
         {
-            try
-            {
-                ShirtRepository.UpdateShirt(shirt);
-            }
-            catch
-            {
-                if (!ShirtRepository.ShirtExists(id))
-                    return NotFound();
-                throw;
-            }
+            ShirtRepository.UpdateShirt(shirt);
 
             return NoContent();
         }

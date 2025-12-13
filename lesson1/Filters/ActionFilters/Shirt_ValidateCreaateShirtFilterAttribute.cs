@@ -1,8 +1,9 @@
-﻿using lesson1.Models.Repositories;
+﻿using lesson1.Models;
+using lesson1.Models.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace lesson1.Models.Validations
+namespace lesson1.Filters.ActionFilters
 {
     public class Shirt_ValidateCreaateShirtFilterAttribute: ActionFilterAttribute
     {

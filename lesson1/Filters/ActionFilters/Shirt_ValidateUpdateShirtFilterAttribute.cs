@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using lesson1.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace lesson1.Models.Validations
+namespace lesson1.Filters.ActionFilters
 {
     public class Shirt_ValidateUpdateShirtFilterAttribute: ActionFilterAttribute
     {

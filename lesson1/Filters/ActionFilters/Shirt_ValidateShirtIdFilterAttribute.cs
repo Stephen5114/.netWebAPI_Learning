@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace lesson1.Filters
+namespace lesson1.Filters.ActionFilters
 {
     public class Shirt_ValidateShirtIdFilterAttribute: ActionFilterAttribute
     {
