@@ -1,4 +1,5 @@
-﻿using lesson1.Filters;
+﻿using lesson1.Data;
+using lesson1.Filters;
 using lesson1.Filters.ActionFilters;
 using lesson1.Filters.ExceptionFilters;
 using lesson1.Models;
@@ -12,18 +13,25 @@ namespace lesson1.Controllers
     [Route("api/[controller]")]
     public class ShirtsController: ControllerBase
     {
+        private readonly ApplicationDbContext db;
+
+        public ShirtsController(ApplicationDbContext db) 
+        {
+            this.db = db;
+        }
 
         [HttpGet]
         public IActionResult GetShirts()
         {
-            return Ok(ShirtRepository.GetShirts());
+            return Ok(db.Shirts.ToList());
         }
 
         [HttpGet("{id}")]
-        [Shirt_ValidateShirtIdFilter]
+        [TypeFilter(typeof(Shirt_ValidateShirtIdFilterAttribute))]
         public IActionResult GetShirtById(int id)
         {
-            return Ok(ShirtRepository.GetShirtById(id));
+            //var shirt = db.Shirts.Find(id);
+            return Ok(HttpContext.Items["shirt"]);
         }
 
         [HttpPost]
@@ -44,7 +52,7 @@ namespace lesson1.Controllers
         [HttpPut("{id}")]
         [Shirt_HandleUpdateExceptionsFilter]
         [Shirt_ValidateUpdateShirtFilter]
-        [Shirt_ValidateShirtIdFilter]
+        [TypeFilter(typeof(Shirt_ValidateShirtIdFilterAttribute))]
         public IActionResult UpdateShirt(int id, Shirt shirt)
         {
             ShirtRepository.UpdateShirt(shirt);
@@ -53,7 +61,7 @@ namespace lesson1.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Shirt_ValidateShirtIdFilter]
+        [TypeFilter(typeof(Shirt_ValidateShirtIdFilterAttribute))]
         public IActionResult DeleteShirt(int id)
         {
             var shirt = ShirtRepository.GetShirtById(id);
