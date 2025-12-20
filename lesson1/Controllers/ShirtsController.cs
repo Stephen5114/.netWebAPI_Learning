@@ -35,18 +35,14 @@ namespace lesson1.Controllers
         }
 
         [HttpPost]
-        [Shirt_ValidateCreaateShirtFilter]
+        [TypeFilter(typeof(Shirt_ValidateCreaateShirtFilterAttribute))]
         public IActionResult CreateShirt([FromBody]Shirt shirt)
         {
-            
-
-            ShirtRepository.AddShirt(shirt);
-
+            this.db.Shirts.Add(shirt);
+            this.db.SaveChanges();
             return CreatedAtAction(nameof(GetShirtById),
                 new { id = shirt.ShirtId },
-                shirt);
-                
-            
+                shirt);     
         }
 
         [HttpPut("{id}")]

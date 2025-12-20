@@ -1,12 +1,22 @@
-﻿using lesson1.Models;
+﻿using lesson1.Data;
+using lesson1.Models;
 using lesson1.Models.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Drawing;
+using System.Reflection;
 
 namespace lesson1.Filters.ActionFilters
 {
     public class Shirt_ValidateCreaateShirtFilterAttribute: ActionFilterAttribute
     {
+        private readonly ApplicationDbContext db;
+
+        public Shirt_ValidateCreaateShirtFilterAttribute(ApplicationDbContext db)
+        {
+            this.db = db;
+        }
+
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             base.OnActionExecuting(context);
@@ -23,7 +33,21 @@ namespace lesson1.Filters.ActionFilters
             }
             else
             {
-                var existingShirt = ShirtRepository.GetShirtByProperties(shirt.Brand, shirt.Gender, shirt.Color, shirt.Size);
+                var existingShirt = db.Shirts.FirstOrDefault(x =>
+                !string.IsNullOrWhiteSpace(shirt.Brand) &&
+                !string.IsNullOrWhiteSpace(x.Brand) &&
+                x.Brand.ToLower() == shirt.Brand.ToLower() &&
+                !string.IsNullOrWhiteSpace(shirt.Gender) &&
+                !string.IsNullOrWhiteSpace(x.Gender) &&
+                x.Gender.ToLower() == shirt.Gender.ToLower() &&
+                !string.IsNullOrWhiteSpace(shirt.Color) &&
+                !string.IsNullOrWhiteSpace(x.Color) &&
+                x.Color.ToLower() == shirt.Color.ToLower() &&
+                shirt.Size.HasValue &&
+                x.Size.HasValue &&
+                shirt.Size.Value == x.Size.Value);
+
+                //var existingShirt = ShirtRepository.GetShirtByProperties(shirt.Brand, shirt.Gender, shirt.Color, shirt.Size);
                 if (existingShirt != null)
                 {
                     context.ModelState.AddModelError("Shirt", "Shirt already exists");
