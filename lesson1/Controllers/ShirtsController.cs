@@ -67,9 +67,10 @@ namespace lesson1.Controllers
         [TypeFilter(typeof(Shirt_ValidateShirtIdFilterAttribute))]
         public IActionResult DeleteShirt(int id)
         {
-            var shirt = ShirtRepository.GetShirtById(id);
-            ShirtRepository.DeleteShirt(id);
-            return Ok(shirt);
+            var shirtToDelete = HttpContext.Items["shirt"] as Shirt;
+            db.Shirts.Remove(shirtToDelete);
+            db.SaveChanges();
+            return Ok(shirtToDelete);
         }
     }
 }
