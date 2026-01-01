@@ -46,12 +46,19 @@ namespace lesson1.Controllers
         }
 
         [HttpPut("{id}")]
-        [Shirt_HandleUpdateExceptionsFilter]
+        [TypeFilter(typeof(Shirt_HandleUpdateExceptionsFilterAttribute))]
         [Shirt_ValidateUpdateShirtFilter]
         [TypeFilter(typeof(Shirt_ValidateShirtIdFilterAttribute))]
         public IActionResult UpdateShirt(int id, Shirt shirt)
         {
-            ShirtRepository.UpdateShirt(shirt);
+            var shirtToUpdate = HttpContext.Items["shirt"] as Shirt;
+            shirtToUpdate.Brand = shirt.Brand;
+            shirtToUpdate.price = shirt.price;
+            shirtToUpdate.Size = shirt.Size;
+            shirtToUpdate.Color = shirt.Color;
+            shirtToUpdate.Gender = shirt.Gender;
+
+            db.SaveChanges();
 
             return NoContent();
         }
@@ -60,9 +67,10 @@ namespace lesson1.Controllers
         [TypeFilter(typeof(Shirt_ValidateShirtIdFilterAttribute))]
         public IActionResult DeleteShirt(int id)
         {
-            var shirt = ShirtRepository.GetShirtById(id);
-            ShirtRepository.DeleteShirt(id);
-            return Ok(shirt);
+            var shirtToDelete = HttpContext.Items["shirt"] as Shirt;
+            db.Shirts.Remove(shirtToDelete);
+            db.SaveChanges();
+            return Ok(shirtToDelete);
         }
     }
 }
