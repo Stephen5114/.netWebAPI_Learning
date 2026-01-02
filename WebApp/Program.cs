@@ -1,7 +1,17 @@
+using WebApp.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHttpClient("ShirtsApi", client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5069/api/");
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddTransient<IWebApiExecuter, WebApiExecuter>();
 
 var app = builder.Build();
 
