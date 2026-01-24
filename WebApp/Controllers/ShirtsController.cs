@@ -45,5 +45,16 @@ namespace WebApp.Controllers
             }
             return NotFound();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateShirt(Shirt shirt)
+        {
+            if (ModelState.IsValid)
+            {
+                await webApiExecuter.InvokePut<Shirt>($"shirts/{shirt.ShirtId}", shirt);
+                return RedirectToAction(nameof (Index));
+            }
+            return View(shirt);
+        }
     }
 }
